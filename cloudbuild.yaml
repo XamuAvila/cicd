@@ -22,4 +22,7 @@ steps:
          docker rm my-app || true && \
          docker run -d --name my-app -p 80:8080 gcr.io/$PROJECT_ID/my-app:latest'
 
+options:
+  logging: CLOUD_LOGGING_ONLY # Configuração para usar apenas o Cloud Logging
+
 timeout: '1200s'
