@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-  res.send('Servidor Node.js está rodando msgfdsadaddsad! other ');
+  res.send('AGORA VAI, GO GABRIEL');
 });
 
 app.listen(PORT, () => {

@@ -20,6 +20,8 @@ steps:
       - '-c'
       - |
         gcloud secrets versions access latest --secret=cloudbuild-ssh-key > /tmp/ssh_key
+        # Adiciona o seguinte comando para converter a chave para o formato PEM, que é mais compatível
+        ssh-keygen -p -f /tmp/ssh_key -m pem -N ""
         chmod 600 /tmp/ssh_key
         eval "$(ssh-agent -s)"
         ssh-add /tmp/ssh_key
@@ -42,5 +44,8 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
+# Adicione esta linha para especificar a conta de serviço
+serviceAccount: 'projects/teste-cicd-469819/serviceAccounts/testecicd@teste-cicd-469819.iam.gserviceaccount.com'
 
 timeout: '1200s'
