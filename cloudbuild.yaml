@@ -45,7 +45,4 @@ steps:
 options:
   logging: CLOUD_LOGGING_ONLY
 
-# Adicione esta linha para especificar a conta de serviço
-serviceAccount: 'projects/teste-cicd-469819/serviceAccounts/testecicd@teste-cicd-469819.iam.gserviceaccount.com'
-
 timeout: '1200s'
