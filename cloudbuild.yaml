@@ -1,14 +1,32 @@
 steps:
   # Passo 1: Construir a imagem Docker
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'build_image'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app:latest', '.']
 
   # Passo 2: Fazer o push da imagem para o Container Registry
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'push_image'
     args: ['push', 'gcr.io/$PROJECT_ID/my-app:latest']
 
-  # Passo 3: Fazer o deploy na VM usando SSH
+  # Passo 3: Configurar a chave SSH
+  # Este passo recupera a chave privada do Secret Manager,
+  # a salva em um arquivo temporário com as permissões corretas (600)
+  # e a adiciona ao agente SSH, permitindo que os próximos passos usem a chave.
   - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'setup_ssh'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret=cloudbuild-ssh-key > /tmp/ssh_key
+        chmod 600 /tmp/ssh_key
+        eval "$(ssh-agent -s)"
+        ssh-add /tmp/ssh_key
+
+  # Passo 4: Fazer o deploy na VM usando SSH
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy_to_vm'
     args:
       - 'compute'
       - 'ssh'
@@ -18,11 +36,11 @@ steps:
       - '--command'
       - |
         'docker pull gcr.io/$PROJECT_ID/my-app:latest && \
-         docker stop my-app || true && \
-         docker rm my-app || true && \
-         docker run -d --name my-app -p 80:8080 gcr.io/$PROJECT_ID/my-app:latest'
+          docker stop my-app || true && \
+          docker rm my-app || true && \
+          docker run -d --name my-app -p 80:8080 gcr.io/$PROJECT_ID/my-app:latest'
 
 options:
-  logging: CLOUD_LOGGING_ONLY # Configuração para usar apenas o Cloud Logging
+  logging: CLOUD_LOGGING_ONLY
 
 timeout: '1200s'
