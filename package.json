@@ -1,0 +1,23 @@
+{
+  "name": "cicd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/XamuAvila/cicd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XamuAvila/cicd/issues"
+  },
+  "homepage": "https://github.com/XamuAvila/cicd#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
