@@ -5,10 +5,6 @@
   "scripts": {
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://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@github.com/XamuAvila/cicd.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
