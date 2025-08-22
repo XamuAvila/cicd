@@ -3,7 +3,6 @@ steps:
     args: ['install']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
-logsBucket: gs://seu-bucket-de-logs
 options:
   logging: CLOUD_LOGGING_ONLY
 timeout: '1200s'
